@@ -10,6 +10,7 @@ const channelId = package.channelId
 const channelSecret = package.channelSecret
 const token = package.channelAccessToken
 const { getData } = require('./googleSheet.js');
+const infos = message.message
 
 
 const line = require('@line/bot-sdk');
@@ -27,21 +28,32 @@ const bot = linebot({
 
 bot.on('message', function (event) {
   console.log(event)
-  console.log("======================================================================")
+  // console.log("======================================================================")
   if (event.message.type == "text") {
-    if (String(event.message.text).includes(message.message[0].content)) {
+    infos.forEach(function(value, index) {
+      console.log(value.content)
+      console.log(index)
+      console.log(String(event.message.text).includes(value.content))
+      if (String(event.message.text).includes(value.content)) {
+        console.log("success")
+        let hello = async() => {
+          const resp = await getData(event.message.text, index);
+          console.log(resp);
+          return "success"
+        };
+        hello().then((value) => console.log(value))
+      }
+    })
       const reoplayMessage = {
         type: 'text',
         text: message.message[0].replay
       }
-      client.pushMessage('Ua4eaa323e9f7d79817176e97ece34a67', reoplayMessage)
-        .then(() => {
-          console.log("success")
-        })
-        .catch((err) => {
-          console.log(err)
-        });
-    }
+      // let hello = async() => {
+      //   const resp = await getData(event.message.text);
+      //   console.log(resp);
+      //   return "success"
+      // };
+      // hello().then((value) => console.log(value))
   }
 });
 
@@ -54,7 +66,7 @@ app.listen(port, () => {
   console.log(`LineBot webhook app listening at http://localhost:${port}`);
 });
 
-(async () => {
-  const resp = await getData();
-  console.log(resp);
-})();
+// (async () => {
+//   const resp = await getData("1");
+//   console.log(resp);
+// })();
