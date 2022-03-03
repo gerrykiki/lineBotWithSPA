@@ -11,6 +11,7 @@ const channelSecret = package.channelSecret
 const token = package.channelAccessToken
 const { getData } = require('./googleSheet.js');
 const infos = message.message
+const custom = message.custom
 
 
 const line = require('@line/bot-sdk');
@@ -27,13 +28,9 @@ const bot = linebot({
 
 
 bot.on('message', function (event) {
-  console.log(event)
-  // console.log("======================================================================")
+  console.log("Success")
   if (event.message.type == "text") {
     infos.forEach(function(value, index) {
-      console.log(value.content)
-      console.log(index)
-      console.log(String(event.message.text).includes(value.content))
       if (String(event.message.text).includes(value.content)) {
         console.log("success")
         let hello = async() => {
@@ -44,16 +41,16 @@ bot.on('message', function (event) {
         hello().then((value) => console.log(value))
       }
     })
-      const reoplayMessage = {
-        type: 'text',
-        text: message.message[0].replay
+
+    custom.forEach(function(value, index){
+      if (String(event.message.text).includes(value.name)) {
+        event.reply(value.content).then(function (data) {
+          // 當訊息成功回傳後的處理
+        }).catch(function (error) {
+          // 當訊息回傳失敗後的處理
+        });
       }
-      // let hello = async() => {
-      //   const resp = await getData(event.message.text);
-      //   console.log(resp);
-      //   return "success"
-      // };
-      // hello().then((value) => console.log(value))
+    })
   }
 });
 

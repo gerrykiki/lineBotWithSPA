@@ -33,25 +33,7 @@ async function getData(writeInfo, index) {
         await sheet.addRow({ info: writeInfo });
     }
     
-    // const moreRows = await sheet.addRows([
-    //     { name: 'Sergey Brinaaaa', email: 'sergey@google.com' },
-    //     { name: 'Eric Schmidddddddt', email: 'eric@google.com' },
-    // ]);
-
-    // read rows
     const rows = await sheet.getRows(); // can pass in { limit, offset }
-
-    // read/write row values
-    // console.log(rows[0].name); // 'Larry Page'
-    // rows[1].email = 'sergey@abc.xyz'; // update a value
-    // await rows[1].save(); // save updates
-    // const rows = await sheet.getRows();
-    // rows[rows.length + 1] = writeInfo
-    // // await rows[rows.length + 1].save()
-    // for (row of rows) {
-    //     result.push(row.);
-    // }
-    // return result;
 };
 
 
