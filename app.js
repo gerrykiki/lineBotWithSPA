@@ -9,7 +9,6 @@ const token = package.channelAccessToken
 const app = express();
 const message = require("./lineMessage.json");
 const infos = message.message
-const custom = message.custom
 
 const { getData } = require('./googleSheet.js');
 
@@ -43,10 +42,6 @@ function handleEvent(event) {
         // ignore non-text-message event
         return Promise.resolve(null);
     }
-    // // create a echoing text message
-    // const echo = { type: 'text', text: event.message.text };
-    // // use reply API
-    // return client.replyMessage(event.replyToken, echo);
     if (event.message.type == "text") {
         infos.forEach(function (value, index) {
             if (String(event.message.text).includes(value.content)) {
@@ -60,15 +55,15 @@ function handleEvent(event) {
             }
         })
 
-        custom.forEach(function (value, index) {
-            if (String(event.message.text).includes(value.name)) {
-                event.reply(value.content).then(function (data) {
-                    // 當訊息成功回傳後的處理
-                }).catch(function (error) {
-                    // 當訊息回傳失敗後的處理
-                });
-            }
-        })
+        // custom.forEach(function (value, index) {
+        //     if (String(event.message.text).includes(value.name)) {
+        //         event.reply(value.content).then(function (data) {
+        //             // 當訊息成功回傳後的處理
+        //         }).catch(function (error) {
+        //             // 當訊息回傳失敗後的處理
+        //         });
+        //     }
+        // })
     }
 }
 // listen on port
